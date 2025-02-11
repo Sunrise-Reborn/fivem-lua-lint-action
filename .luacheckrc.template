@@ -1,6 +1,6 @@
 stds.cfx = {
     globals = {
-        string = { other_fields = true }
+        string = { other_fields = true },
     },
     read_globals = {
         Citizen = {
@@ -55,7 +55,7 @@ stds.cfx = {
         "RemoveEventHandler",
         json = { fields = { "encode", "decode", "array", "getoption", "isarray", "isobject", "null", "object", "setoption", "use_lpeg" } },
         promise = { fields = { "new", "all", "first", "map" } },
-        table = { fields = { "create", "wipe", "clone", "type" } },
+        table = { fields = { "create", "wipe", "clone", "type", "deepclone" } },
         string = { fields = { "strjoin", "strtrim", "strconcat", "strsplit", "tostringall" } },
         utf8 = { fields = { "strlenutf8", "strcmputf8i" } },
         msgpack = { fields = { "extend", "extend_clear", "extend_get", "getoption", "gettype", "new", "next", "null", "pack", "pack_args", "safe", "sentinel", "packers", "set_array", "set_integer", "set_number", "set_string", "setoption", "settype", "unpack" } },
@@ -340,6 +340,13 @@ stds.ox_lib = {
     }
 }
 
+globals = {
+    -- Ignore "accessing undefined variable 'MySQL'", as it is fake news
+    "MySQL",
+    -- ox_lib math library extention
+    math = { fields = { "toscalars", "tovector", "normaltorotation", "torgba", "hextorgb", "tohex", "groupdigits", "clamp", "round", "interp", "lerp" } }
+}
+
 -- manifest
 files["**/fxmanifest.lua"].std = "max+cfx_manifest"
 files["**/__resource.lua"].std = "max+cfx_manifest"
@@ -356,10 +363,16 @@ files["**/server/**/*.lua"].std = "max+cfx+cfx_sv%%EXTRA%%"
 -- shared
 files["**/shared.lua"].std="max+cfx+cfx_sv+cfx_cl_deprecated+cfx_cl%%EXTRA%%"
 files["**/shared/**/*.lua"].std="max+cfx+cfx_sv+cfx_cl_deprecated+cfx_cl%%EXTRA%%"
+-- ox
+files["**/ox_lib/**/*.lua"].ignore = {".*"}
+files["**/ox_target/**/*.lua"].ignore = {".*"}
+files["**/ox_inventory/**/*.lua"].ignore = {".*"}
+files["**/ox_doorlock/**/*.lua"].ignore = {".*"}
+files["**/oxmysql/**/*.lua"].ignore = {".*"}
 -- default
 max_line_length = 1100
 max_cyclomatic_complexity = 200
 color = true
-ignore = {'611', '111', '614', '212'}
+ignore = {'611', '111', '614', '212', '21/_.*'}
 std = "max+cfx+cfx_sv+cfx_cl_deprecated+cfx_cl%%EXTRA%%"
 operators = {"+=", "-=", "*=", "/="}
